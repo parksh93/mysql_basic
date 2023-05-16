@@ -26,8 +26,8 @@ SELECT * FROM bitcamp06.user_tbl;
 use bitcamp06;
 			-- pk가 걸린 컬럼은 null을 주면 알아서 숫자 배정
 INSERT INTO user_tbl VALUES(null, '김자바', 1987, '서울', 180, '2020-05-03');
-INSERT INTO user_tbl VALUES(null, '이연희', 1992, '경기', 164, '2020-05-12');
-INSERT INTO user_tbl VALUES(null, '박종현', 1990, '부산', 177, '2020-06-01');
+INSERT INTO user_tbl VALUES(null, '이연희', 1992, '경기', 166, '2020-05-12');
+INSERT INTO user_tbl VALUES(null, '박종현', 1990, '부산', 175, '2020-06-01');
 INSERT INTO user_tbl
 	(user_name, user_birth_year, user_address, user_height, entry_date)
 	VALUES ('신영웅', 1995, '광주', 172, '2020-07-15');
@@ -45,7 +45,7 @@ SELECT * FROM user_tbl WHERE user_num > 2 AND user_height < 178;
 UPDATE user_tbl SET user_address = '서울';
 
 -- WHERE절 없는 UPDATE 구문 실행 방지, 0대입시 해제, 1대입시 실행
-set sql_safe_updates=1;
+set sql_safe_updates=0;
 
 -- 테이블이 존재하지 않다면 삭제구문을 실행하지 않아 에러를 발생시키지 않음
 DROP TABLE IF EXISTS user_tbl;
@@ -70,7 +70,7 @@ DELETE FROM user_tbl;
             (값7, 값8, 값9 ...),
             ...;
 	컬럼명은 모든 컬럼에 값을 집어넣을시 생략 가능합니다.*/
-INSERT INTO user_tbl
+INSERT INTO user_tbl2
 	VALUES (null, '강개발', 1994, '경남', 178, '2020-08-02'),
 			(null, '최지선', 1998, '전북', 170, '2020-08-03'),
             (null, '류가연', 2000, '전남', 158, '2020-08-20');
@@ -129,7 +129,7 @@ ALTER TABLE buy_tbl ADD CONSTRAINT FK_buy_tbl FOREIGN KEY (user_num)
 INSERT INTO buy_tbl values(null, 199, '오픈카', '승용차', 1000, 5);
 
 SELECT * FROM buy_tbl;
-SELECT * FROM user_tbl;
+SELECT * FROM user_tbl2;
 -- 만약 user_tbl에 있는 요소를 삭제시, buy_tbl에 구매내역이 남은 user_num을 삭제한다면
 -- 특별히 on_delete를 걸지 않은 경우는 참조 무결성 원칙에 위배되어 삭제가 되지 않습니다.
 DELETE FROM user_tbl WHERE user_num=4;
@@ -138,3 +138,11 @@ DELETE FROM user_tbl WHERE user_num=4;
 -- 먼저 buy_tbl의 4번유저가 남긴 구매내역을 모두 삭제해야 합니다.
 DELETE FROM buy_tbl WHERE buy_num = 1;
 DELETE FROM buy_tbl WHERE buy_num = 2;
+
+DELETE FROM user_tbl2 WHERE entry_date >= '2020-08-15';
+
+DELETE FROM user_tbl2 WHERE entry_date = '2020-08-03';
+
+-- DISTINCT : 중복항목 제거 후 해당 컬럼 반환
+-- DISTINCT * 사용시 : 해당 인스턴스가 모두 같은 행만 중복 항목 제거
+SELECT DISTINCT user_birth_year FROM user_tbl2;
