@@ -57,4 +57,3 @@ HAVING
 	AVG(user_height) >= 160;
 
 
-

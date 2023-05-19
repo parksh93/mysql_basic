@@ -136,3 +136,4 @@ SELECT
 	END AS BMI_CASE
 FROM
 	user_tbl;
+SELECT * FROM user_tbl WHERE user_height > (SELECT MAX(user_height) FROM user_tbl WHERE user_address = '경기');
